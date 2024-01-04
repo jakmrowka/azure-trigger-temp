@@ -1,0 +1,6 @@
+apiVersion: v2
+name: trigger-temp
+description: A Helm chart for trigger-temp
+type: application
+version: 0.1.0
+appVersion: "1.0"
