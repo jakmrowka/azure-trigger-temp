@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, Depends, HTTPException, status
+from fastapi import FastAPI, Request, Depends, HTTPException, status, Header
 from starlette.responses import Response
 import os
 from tuya_connector import TuyaOpenAPI
@@ -13,12 +13,17 @@ ACCESS_KEY = os.environ.get('TUYA_ACCESS_KEY')
 DEVICE_ID = "bf289bf7a00c812ce8mnvi"
 API_KEY = os.environ.get('API_KEY')
 
-def verify_api_key(api_key: str = None):
+# def verify_api_key(api_key: str = None):
+#     if api_key != API_KEY:
+#         raise HTTPException(
+#             status_code=status.HTTP_401_UNAUTHORIZED,
+#             detail="Nieautoryzowany dostęp"
+#         )
+#     return api_key
+
+def get_api_key(api_key: str = Header(...)):
     if api_key != API_KEY:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Nieautoryzowany dostęp"
-        )
+        raise HTTPException(status_code=403, detail="Nieautoryzowany dostep")
     return api_key
 @app.get("/info")
 async def read_request_info(request: Request):
@@ -39,7 +44,8 @@ def ready():
     return Response(content="Serwer gotowy", status_code=200)
 
 @app.get("/jadziem")
-def jadziem(api_key: str = Depends(verify_api_key)):
+# def jadziem(api_key: str = Depends(verify_api_key)):
+def jadziem(api_key: str = Depends(get_api_key)):
     try:
         openapi = TuyaOpenAPI(ENDPOINT, ACCESS_ID, ACCESS_KEY)
         openapi.connect()
