@@ -54,7 +54,7 @@ def jadziem(api_key: str = Depends(get_api_key)):
         return Response(content=f"Blad laczenia z TuyaAPI: {e}", status_code=400)
     try:
         response = openapi.post(f'/v1.0/iot-03/devices/{DEVICE_ID}/commands',
-                                body={"commands": [{"code": "temp_set", "value": 42}]})
+                                body={"commands":[{"code":"TempSet","value":42},{"code":"Mode","value":"1"}]})
         logging.info(f"response to:{response}")
         if response['success'] == True:
             return Response(content="Temperatura ustawiona", status_code=200)
