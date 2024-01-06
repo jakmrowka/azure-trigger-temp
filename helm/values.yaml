@@ -17,6 +17,7 @@ config:
   TUYA_ACCESS_ID: "#{tuya-access-id}#"
   TUYA_ACCESS_KEY: "#{tuya-access-key}#"
   API_KEY: "#{api_key}#"
+  DEVICE_TYPE: "#{device_type}#"
 
 resources: {}
 

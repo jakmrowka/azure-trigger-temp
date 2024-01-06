@@ -3,15 +3,21 @@ from starlette.responses import Response
 import os
 from tuya_connector import TuyaOpenAPI
 import logging
-
+import yaml
 
 app = FastAPI()
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 ENDPOINT = "https://openapi.tuyaeu.com"
 ACCESS_ID = os.environ.get('TUYA_ACCESS_ID')
 ACCESS_KEY = os.environ.get('TUYA_ACCESS_KEY')
-DEVICE_ID = "bf289bf7a00c812ce8mnvi"
+DEVICE_TYPE = os.environ.get('DEVICE_TYPE')
 API_KEY = os.environ.get('API_KEY')
+
+file_path = 'list_device'
+with open(file_path, 'r') as file:
+    text_data = yaml.safe_load(file)
+data = yaml.safe_load(text_data)
+DEVICE_ID = data.get(DEVICE_TYPE)[0]
 
 # def verify_api_key(api_key: str = None):
 #     if api_key != API_KEY:

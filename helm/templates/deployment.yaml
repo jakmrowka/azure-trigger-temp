@@ -16,6 +16,10 @@ spec:
         - name: trigger-temp
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/list_device
+              subPath: list_device
           env:
           {{- range $key, $val := .Values.config }}
             - name: {{ $key }}
@@ -35,3 +39,7 @@ spec:
               port: 30003
             initialDelaySeconds: 60
             timeoutSeconds: 5
+      volumes:
+        - name: config-volume
+          configMap:
+            name: list-device

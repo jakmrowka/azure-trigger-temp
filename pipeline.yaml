@@ -31,6 +31,8 @@ variables:
   value: ${{ parameters.helmOperation }}
 - name: repo_github
   value: 'https://github.com/jakmrowka/azure-trigger-temp'
+- name: device_type
+  value: 'termostat'
 
 stages:
 - stage: Docker
@@ -66,7 +68,8 @@ stages:
     demands:
       - agent.name -equals gad-agent-pi4b
   jobs:
-  - job: microK8sDeploy
+  - job: microK8sCred
+    condition: or(eq(variables['helmOperation'], 'install'), eq(variables['helmOperation'], 'both'))
     steps:
     - checkout: self
     - task: AzureKeyVault@2
@@ -87,6 +90,19 @@ stages:
         tokenSuffix: '}#'
         useLegacyPattern: false
         enableTelemetry: true
+    - task: DownloadSecureFile@1
+      name: ListDeviceYaml
+      inputs:
+        secureFile: 'list_device.yaml'
+    - script: |
+        mkdir -p helm/files
+        cp $(ListDeviceYaml.secureFilePath) helm/files/list_device.yaml
+      displayName: 'Copy list_device.yaml to Helm Chart Directory'
+  - job: microK8sDeploy
+    dependsOn: microK8sCred
+    condition: always()
+    steps:
+    - checkout: none
     - task: DownloadSecureFile@1
       name: kubeconfig
       inputs:
