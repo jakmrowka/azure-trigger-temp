@@ -25,6 +25,21 @@ spec:
             - name: {{ $key }}
               value: {{ $val | quote }}
           {{- end }}
+            - name: TUYA_ACCESS_ID
+              valueFrom:
+                secretKeyRef:
+                  name: termostat-trigger-secrets
+                  key: TUYA_ACCESS_ID
+            - name: TUYA_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: termostat-trigger-secrets
+                  key: TUYA_ACCESS_KEY
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: termostat-trigger-secrets
+                  key: API_KEY
           ports:
             - containerPort: {{ .Values.service.port }}
           livenessProbe:
@@ -33,12 +48,15 @@ spec:
               port: 30003
             initialDelaySeconds: 60
             timeoutSeconds: 5
-          readinessProbe:
+          startupProbe:
             httpGet:
               path: /ready
               port: 30003
-            initialDelaySeconds: 60
-            timeoutSeconds: 5
+            initialDelaySeconds: 5
+            periodSeconds: 3
+            timeoutSeconds: 2
+            successThreshold: 1
+            failureThreshold: 20
       volumes:
         - name: config-volume
           configMap:
