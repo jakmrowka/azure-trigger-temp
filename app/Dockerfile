@@ -6,8 +6,12 @@ COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+RUN useradd -m appuser && chown -R appuser:appuser /app
 
+COPY . .
+RUN rm Dockerfile
+
+USER appuser
 ENV UVICORN_CMD="uvicorn main:app --host 0.0.0.0 --port 30003"
 
 EXPOSE 30003
