@@ -15,8 +15,12 @@ ingress:
 
 config:
   DEVICE_TYPE: "#{device_type}#"
+  ES_INDEX: "#{es_index}#"
 
 secrets:
+  ES_USERNAME: "#{es-username}#"
+  ES_PASSWORD: "#{es-password}#"
   TUYA_ACCESS_ID: "#{tuya-access-id}#"
   TUYA_ACCESS_KEY: "#{tuya-access-key}#"
+  ES_HOST: "#{es_url}#"
   API_KEY: "#{api_key}#"
