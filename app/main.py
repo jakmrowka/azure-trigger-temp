@@ -114,4 +114,4 @@ def jadziem(api_key: str = Depends(get_api_key)):
     elif average_temp is None:
         return Response(content=f"Nie wlaczam grzania. Nie wiem czy jest cieplo", status_code=200)
     else:
-        return Response(content=f"Zbyt cieplo, jest srednio: {average_temp} stopni. Nie wlaczam grzania", status_code=200)
+        return Response(content=f"Zbyt cieplo, jest srednio: {round(average_temp,2)} stopni. Nie wlaczam grzania", status_code=200)
