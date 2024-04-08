@@ -2,3 +2,4 @@ tuya-connector-python
 fastapi
 uvicorn
 PyYAML
+elasticsearch

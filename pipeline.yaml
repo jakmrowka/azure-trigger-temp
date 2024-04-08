@@ -1,5 +1,8 @@
 trigger:
-- main
+  branches:
+    include:
+    - '*'
+
 
 parameters:
 - name: buildImage
@@ -33,6 +36,10 @@ variables:
   value: 'https://github.com/jakmrowka/azure-trigger-temp'
 - name: device_type
   value: 'termostat'
+- name: es_url
+  value: 'http://87.207.10.127'
+- name: es_index
+  value: 'search-termostat'
 
 stages:
 - stage: Docker
