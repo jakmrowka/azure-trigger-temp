@@ -99,10 +99,10 @@ def jadziem(api_key: str = Depends(get_api_key)):
         logging.error(f"Blad polaczenia z Tuya API: {e}")
         return Response(content=f"Blad laczenia z TuyaAPI: {e}", status_code=400)
     average_temp = get_average_temperature_for_today()
-    if average_temp is not None and average_temp < 18:
+    if average_temp is not None and average_temp < 19:
         try:
             response = openapi.post(f'/v1.0/iot-03/devices/{DEVICE_ID}/commands',
-                                    body={"commands":[{"code":"TempSet","value":42},{"code":"Mode","value":"1"}]})
+                                    body={"commands":[{"code":"TempSet","value":42},{"code":"Mode","value":"0"}]})
             logging.info(f"response to:{response}")
             if response['success'] == True:
                 return Response(content="Temperatura ustawiona, wlaczam grzanie", status_code=200)
