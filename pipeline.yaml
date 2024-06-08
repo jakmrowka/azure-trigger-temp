@@ -8,7 +8,7 @@ parameters:
 - name: buildImage
   displayName: 'Build Docker Image'
   type: boolean
-  default: true
+  default: false
 - name: helmOperation
   displayName: 'Helm Operation'
   type: string
@@ -37,7 +37,7 @@ variables:
 - name: device_type
   value: 'termostat'
 - name: es_url
-  value: 'http://87.207.10.127'
+  value: 'http://87.207.189.239'
 - name: es_index
   value: 'search-termostat'
 
